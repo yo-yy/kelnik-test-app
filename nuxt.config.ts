@@ -1,6 +1,6 @@
 export default defineNuxtConfig({
   modules: ['@pinia/nuxt'],
-  css: ['assets/styles/main.scss'],
+  css: ['assets/styles/main.sass'],
   app: {
     head: {
       title: 'Список квартир',

@@ -1,13 +1,32 @@
 <template>
-  <button class="button" @click="toTop" v-show="visible"><img src="/icons/arrow-upward.svg" alt="Up"></button>
+  <Transition name="fade">
+    <button 
+      class="btn-up" 
+      @click="toTop" 
+      v-show="visible">
+        <img src="/icons/arrow-upward.svg" alt="Up">
+    </button>
+  </Transition>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
-const visible = ref(true)
+const visible = ref(false)
 
 function toTop() {
-  console.log("Top")
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
+
+function handleScroll() {
+  visible.value = window.scrollY > 300
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
 </script>
