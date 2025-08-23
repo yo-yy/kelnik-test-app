@@ -15,6 +15,13 @@
   cursor: pointer
   border: none
   outline: none
+
+  &:hover
+    box-shadow: 0 0 5px $brand-color
+    filter: brightness(1.05) 
+
+  &:active
+    transform: scale(0.95)
   
 .fade-enter-active, .fade-leave-active
   transition: opacity 0.3s ease
