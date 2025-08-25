@@ -1,7 +1,7 @@
 <template>
   <Transition name="fade">
     <button 
-      class="btn-up" 
+      class="btn-up round" 
       @click="toTop" 
       v-show="visible">
         <img src="/icons/arrow-upward.svg" alt="Up">

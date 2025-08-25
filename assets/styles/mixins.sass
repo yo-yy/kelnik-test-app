@@ -1,0 +1,17 @@
+@use "./variables.sass" as *
+
+@mixin sm-down // до 959px включительно
+  @media (max-width: #{$sm - 1})
+    @content;
+
+@mixin sm-up // от 960px и шире
+  @media (min-width: #{$sm}) 
+    @content;
+
+@mixin md-up // от 1440px и шире
+  @media (min-width: #{$md}) 
+    @content;
+
+@each $name, $weight in (light: 300, medium: 500, bold: 700)
+  .text-#{$name}
+    font-weight: $weight

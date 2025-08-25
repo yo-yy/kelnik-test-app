@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="main">
     <ResultPanel />
     <FilterPanel />
   </section>
