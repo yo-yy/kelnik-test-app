@@ -1,5 +1,5 @@
 <template>
-  <section style="background-color: aquamarine;">
+  <section>
     filterfilter
   </section>
 </template>
