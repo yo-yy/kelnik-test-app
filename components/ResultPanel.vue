@@ -6,9 +6,21 @@
         <div class="row">
           <span class="plan-col">Планировка</span>
           <span class="flat-col">Квартира</span>
-          <span class="table-col">S, м<sup>2</sup></span>
-          <span class="table-col">Этаж</span>
-          <span class="table-col">Цена, ₽</span>
+          <SortBtn
+            label="S, м²"
+            :model-value="sort.by==='area' ? sort.dir : 'none'"
+            @update:modelValue="v => setSort('area', v)"
+          />
+          <SortBtn
+          label="Этаж"
+            :model-value="sort.by==='floor' ? sort.dir : 'none'"
+            @update:modelValue="v => setSort('floor', v)"
+          />
+          <SortBtn
+            label="Цена, ₽"
+            :model-value="sort.by==='price' ? sort.dir : 'none'"
+            @update:modelValue="v => setSort('price', v)"
+          />
         </div>
       </div>
       <div class="table-body text-medium">
@@ -34,6 +46,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useFlatsStore } from '#imports'
+import SortBtn from './SortBtn.vue'
 
 const store = useFlatsStore()
 
@@ -43,5 +56,16 @@ onMounted(() => {
 
 function formatPrice(v: number) {
   return new Intl.NumberFormat('ru-RU').format(v)
+}
+
+type State = 'none' | 'asc' | 'desc'
+const sort = reactive({
+  by: 'none' as 'area' | 'floor' | 'price' | 'none',
+  dir: 'none' as State
+})
+
+function setSort(field: 'area'|'floor'|'price', dir: State) {
+  sort.by = dir === 'none' ? 'none' : field
+  sort.dir = dir
 }
 </script>
