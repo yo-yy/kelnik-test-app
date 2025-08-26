@@ -24,7 +24,7 @@
         </div>
       </div>
       <div class="table-body text-medium">
-        <div class="row" v-for="flat in store.items" :key="flat.id">
+        <div class="row" v-for="flat in sortedItems" :key="flat.id">
           <div class="text-block">
             <div class="flat-col">{{ flat.rooms }}-комнатная №{{ flat.id }}</div>
             <div class="table-col">
@@ -59,13 +59,28 @@ function formatPrice(v: number) {
 }
 
 type State = 'none' | 'asc' | 'desc'
+type SortField = 'area' | 'floor' | 'price' | 'none'
+
 const sort = reactive({
-  by: 'none' as 'area' | 'floor' | 'price' | 'none',
+  by: 'none' as SortField,
   dir: 'none' as State
 })
 
-function setSort(field: 'area'|'floor'|'price', dir: State) {
+function setSort(field: Exclude<SortField, 'none'>, dir: State) {
   sort.by = dir === 'none' ? 'none' : field
   sort.dir = dir
 }
+
+const sortedItems = computed(() => {
+  const list = [...store.items]
+  if (sort.by === 'none' || sort.dir === 'none') return list
+
+  const dir = sort.dir === 'asc' ? 1 : -1
+  const key = sort.by // 'area' | 'floor' | 'price'
+
+  return list.sort((a, b) => {
+    const cmp = (a[key] as number) - (b[key] as number)
+    return (cmp === 0 ? (a.id - b.id) : cmp) * dir
+  })
+})
 </script>
