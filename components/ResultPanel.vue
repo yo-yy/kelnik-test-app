@@ -1,8 +1,8 @@
 <template>
-  <section class="column gutter">
+  <section class="column gutter-md">
     <h1>Квартиры</h1>
     <div class="flats-table">
-      <div class="text-light table-header">
+      <div class="text-light table-header p3">
         <div class="row">
           <span class="plan-col">Планировка</span>
           <span class="flat-col">Квартира</span>

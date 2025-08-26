@@ -26,6 +26,12 @@
   font-weight: 700
   font-style: normal
 
+:root
+  --slider-handle-bg: #3EB57C
+  --slider-handle-shadow: none
+  --slider-handle-border: 0;
+  --slider-connect-bg: #3EB57C;
+
 // основные стили
 html 
   box-sizing: border-box;
@@ -68,12 +74,15 @@ body
   display: flex;
   flex-direction: row;
 
-.gutter 
+.gutter-md
   gap: 12px
   @include sm-up
     gap: 24px
   @include md-up
     gap: 48px
+
+.gutter-sm
+  gap: 16px
 
 .is-hidden-md
   @include md-up
@@ -82,6 +91,9 @@ body
 h1
   font-size: 54px;
   margin: 0;
+
+.p3 
+  font-size: 14px
 
 // таблица
 .flats-table
@@ -97,7 +109,6 @@ h1
 .table-header
   text-align: left;
   padding: 8px 0;
-  font-size: 14px;
 
   @include md-up
     padding: 0 0 16px 0;
@@ -216,10 +227,76 @@ h1
   &:active
     transform: scale(0.95)
 
-
-
 .fade-enter-active, .fade-leave-active
   transition: opacity 0.3s ease
 
 .fade-enter-from, .fade-leave-to
   opacity: 0
+
+.fltr-btns
+  gap: 16px;
+
+.fltr-btn
+  padding: 10px 12px
+  border: none
+  background-color: white
+  height: 44px
+  width: 44px
+
+  &:hover
+    background-color: $brand-color-dark
+    box-shadow: 0 6px 20px $brand-color
+    color: white
+
+  &:active
+    transform: scale(0.95)
+
+//фильтр
+.filter-panel
+  background: $brand-gradient
+  background-position: -50% 50%
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+  justify-content: flex-start
+  padding: 20px
+  border-radius: 10px
+  gap: 24px
+  
+  @include md-up
+    padding: 40px
+
+.fltr-sec
+  gap: 8px
+  width: 280px
+  @include md-up
+    width: 319px
+
+.slider-text
+  display: flex
+  width: 100%
+  justify-content: space-between
+  margin-bottom: 8px;
+
+.slider-text p
+  display: flex
+  align-items: flex-end;
+  gap: 8px
+  margin: 0
+
+.slider-horizontal
+  width: 100%
+
+.clear-btn-row
+  padding: 5px 16px 7px 16px
+
+.clear-btn
+  gap: 8px
+  background: none;
+  border: none
+
+  &:hover
+    transform: scale(1.05)
+
+  &:active
+    transform: scale(0.99)
