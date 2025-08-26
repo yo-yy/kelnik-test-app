@@ -1,3 +1,4 @@
+// server/api/flats.get.ts
 import { readFile, stat } from 'node:fs/promises'
 import { join } from 'node:path'
 import { getQuery } from 'h3'
@@ -32,19 +33,22 @@ export default defineEventHandler(async (event) => {
   const rooms = q.rooms ? String(q.rooms).split(',').map(Number) : null
   const areaMin = q.areaMin != null ? Number(q.areaMin) : -Infinity
   const areaMax = q.areaMax != null ? Number(q.areaMax) : Infinity
+  const priceMin = q.priceMin != null ? Number(q.priceMin) : -Infinity
+  const priceMax = q.priceMax != null ? Number(q.priceMax) : Infinity
 
   let items = await getData()
 
-  // фильтрация
   if (rooms?.length) items = items.filter(f => rooms.includes(f.rooms))
   if (areaMin !== -Infinity || areaMax !== Infinity) {
     items = items.filter(f => f.area >= areaMin && f.area <= areaMax)
+  }
+  if (priceMin !== -Infinity || priceMax !== Infinity) {
+    items = items.filter(f => f.price >= priceMin && f.price <= priceMax)
   }
 
   const total = items.length
   const slice = items.slice(offset, offset + limit)
   const nextOffset = offset + slice.length < total ? offset + slice.length : null
 
-  // лёгкая «компрессия» ответа: не отдаём ничего лишнего
   return { items: slice, total, nextOffset }
 })

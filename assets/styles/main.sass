@@ -247,13 +247,23 @@ h1
     background-color: $brand-color-dark
     box-shadow: 0 6px 20px $brand-color
     color: white
+    cursor: pointer
 
+  &:active
+    transform: scale(0.95)
+
+.fltr-btn-active
+  background-color: $brand-color-dark
+  box-shadow: 0 6px 20px $brand-color
+  color: white
+  &:hover
+    cursor: pointer
   &:active
     transform: scale(0.95)
 
 //фильтр
 .filter-panel
-  background: $brand-gradient
+  background: $brand-gradient-light
   background-position: -50% 50%
   display: flex
   flex-direction: column
@@ -296,7 +306,7 @@ h1
   border: none
 
   &:hover
-    transform: scale(1.05)
+    cursor: pointer
 
   &:active
-    transform: scale(0.99)
+    transform: scale(0.95)
