@@ -38,17 +38,22 @@ export default defineEventHandler(async (event) => {
 
   let items = await getData()
 
-  if (rooms?.length) items = items.filter(f => rooms.includes(f.rooms))
-  if (areaMin !== -Infinity || areaMax !== Infinity) {
-    items = items.filter(f => f.area >= areaMin && f.area <= areaMax)
-  }
-  if (priceMin !== -Infinity || priceMax !== Infinity) {
-    items = items.filter(f => f.price >= priceMin && f.price <= priceMax)
+  const afterRange = items.filter(f =>
+    f.area  >= areaMin && f.area  <= areaMax &&
+    f.price >= priceMin && f.price <= priceMax
+  )
+
+  const roomCounts: Record<number, number> = { 1:0, 2:0, 3:0, 4:0 }
+  for (const f of afterRange) {
+    if (roomCounts[f.rooms] != null) roomCounts[f.rooms]++
   }
 
-  const total = items.length
-  const slice = items.slice(offset, offset + limit)
+  let filtered = afterRange
+  if (rooms?.length) filtered = filtered.filter(f => rooms.includes(f.rooms))
+
+  const total = filtered.length
+  const slice = filtered.slice(offset, offset + limit)
   const nextOffset = offset + slice.length < total ? offset + slice.length : null
 
-  return { items: slice, total, nextOffset }
+  return { items: slice, total, nextOffset, roomCounts }
 })

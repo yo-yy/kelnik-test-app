@@ -5,7 +5,8 @@
         <template v-for="i in [1, 2, 3, 4]" :key="i">
           <button 
             class="fltr-btn round"
-            :class="{ 'fltr-btn-active': roomsSelected.includes(i) }" 
+            :class="{ 'fltr-btn-active': roomsSelected.includes(i), 'fltr-btn-disabled': !roomCounts[i] }" 
+            :disabled="!roomCounts[i]"
             @click="toggleRoom(i)" >{{ i }}к</button>
         </template>
       </div>
@@ -60,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import Slider from '@vueform/slider'
 import '@vueform/slider/themes/default.css'
 import { useFlatsStore } from '#imports'
@@ -71,30 +72,27 @@ const localPrice = ref<[number, number]>([...store.filters.price])
 const localArea  = ref<[number, number]>([...store.filters.area])
 
 const roomsSelected = computed(() => store.filters.rooms)
+const roomCounts = computed(() => store.roomCounts) // {1,2,3,4}
 
 function formatPrice(v: number) {
   return new Intl.NumberFormat('ru-RU').format(v)
 }
 
-let t1: any = null
-let t2: any = null
+let t1:any=null, t2:any=null
 const DEBOUNCE = 250
 
 watch(localPrice, (val) => {
   clearTimeout(t1)
-  t1 = setTimeout(() => {
-    store.setFilters({ price: val })
-  }, DEBOUNCE)
+  t1 = setTimeout(() => store.setFilters({ price: val }), DEBOUNCE)
 }, { deep: true })
 
 watch(localArea, (val) => {
   clearTimeout(t2)
-  t2 = setTimeout(() => {
-    store.setFilters({ area: val })
-  }, DEBOUNCE)
+  t2 = setTimeout(() => store.setFilters({ area: val }), DEBOUNCE)
 }, { deep: true })
 
 function toggleRoom(r: number) {
+  if (!roomCounts.value[r]) return // нет доступных — не реагируем
   const rooms = new Set(store.filters.rooms)
   rooms.has(r) ? rooms.delete(r) : rooms.add(r)
   store.setFilters({ rooms: Array.from(rooms).sort() })

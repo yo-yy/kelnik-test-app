@@ -7,24 +7,28 @@
   src: url("/fonts/pt-root-ui_light.woff2") format("woff2")
   font-weight: 300
   font-style: normal
+  font-display: swap
 
 @font-face
   font-family: "PT Root UI"
   src: url("/fonts/pt-root-ui_regular.woff2") format("woff2")
   font-weight: 400
   font-style: normal
+  font-display: swap
 
 @font-face
   font-family: "PT Root UI"
   src: url("/fonts/pt-root-ui_medium.woff2") format("woff2")
   font-weight: 500
   font-style: normal
+  font-display: swap
 
 @font-face
   font-family: "PT Root UI"
   src: url("/fonts/pt-root-ui_bold.woff2") format("woff2")
   font-weight: 700
   font-style: normal
+  font-display: swap
 
 :root
   --slider-handle-bg: #3EB57C
@@ -288,6 +292,10 @@ h1
     cursor: pointer
   &:active
     transform: scale(0.95)
+
+.fltr-btn[disabled], .fltr-btn-disabled 
+  opacity: .9;
+  pointer-events: none; 
 
 //фильтр
 .filter-panel

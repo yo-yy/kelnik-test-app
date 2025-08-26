@@ -10,7 +10,12 @@ export type Flat = {
   plan: string
 }
 
-type FlatsResponse = { items: Flat[]; total: number; nextOffset: number | null }
+type FlatsResponse = {
+  items: Flat[]
+  total: number
+  nextOffset: number | null
+  roomCounts: Record<number, number>
+}
 
 type Filters = {
   rooms: number[]        // [] = не выбрано, значит “все”
@@ -32,6 +37,7 @@ export const useFlatsStore = defineStore('flats', {
       area: [30, 120],
       price: [3000000, 10000000],
     } as Filters,
+    roomCounts: { 1:0, 2:0, 3:0, 4:0 } as Record<number, number>,
     _abortCtrl: null as AbortController | null,
   }),
   actions: {
@@ -54,6 +60,7 @@ export const useFlatsStore = defineStore('flats', {
       this.offset = 0
       this.done = false
       this.error = ''
+      this.roomCounts = { 1:0, 2:0, 3:0, 4:0 }
       await this.loadMore(true)
     },
 
@@ -84,6 +91,9 @@ export const useFlatsStore = defineStore('flats', {
         this.total = payload.total
         this.offset = payload.nextOffset ?? 0
         this.done = payload.nextOffset == null
+
+        // обновляем доступность комнат
+        this.roomCounts = payload.roomCounts
       } catch (e: any) {
         if (e?.name !== 'AbortError') this.error = e?.message || 'Ошибка загрузки'
       } finally {
